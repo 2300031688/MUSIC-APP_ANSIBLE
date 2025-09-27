@@ -22,7 +22,7 @@ const AdminLogin = () => {
 
   return (
     <div className="auth-container">
-      <h2>Admin Login</h2>
+      <h2>Admin Login page</h2>
       <form className="auth-form" onSubmit={handleSubmit}>
         <input
           type="text"
