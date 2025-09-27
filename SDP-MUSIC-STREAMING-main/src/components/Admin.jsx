@@ -1,34 +1,38 @@
 import React, { useState, useEffect } from 'react';
-import axios from './config';
+import axios from 'axios'; // use axios directly
 
 const Admin = () => {
   const [users, setUsers] = useState([]);
   const [artists, setArtists] = useState([]);
   const [newArtistName, setNewArtistName] = useState('');
 
+  // Use environment variable for base URL
+  const API_BASE_URL = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
     const token = localStorage.getItem('token');
+
     // Fetch users
-    axios.get('/api/users', { headers: { 'x-access-token': token } })
+    axios.get(`${API_BASE_URL}/api/users`, { headers: { 'x-access-token': token } })
       .then(res => setUsers(res.data))
       .catch(err => console.error('Error fetching users:', err));
 
     // Fetch artists
-    axios.get('/api/artists', { headers: { 'x-access-token': token } })
+    axios.get(`${API_BASE_URL}/api/artists`, { headers: { 'x-access-token': token } })
       .then(res => setArtists(res.data))
       .catch(err => console.error('Error fetching artists:', err));
   }, []);
 
   const deleteUser = (userId) => {
     const token = localStorage.getItem('token');
-    axios.delete(`/api/users/${userId}`, { headers: { 'x-access-token': token } })
+    axios.delete(`${API_BASE_URL}/api/users/${userId}`, { headers: { 'x-access-token': token } })
       .then(() => setUsers(users.filter(u => u.id !== userId)))
       .catch(err => console.error('Error deleting user:', err));
   };
 
   const addArtist = () => {
     const token = localStorage.getItem('token');
-    axios.post('/api/artists', { name: newArtistName }, { headers: { 'x-access-token': token } })
+    axios.post(`${API_BASE_URL}/api/artists`, { name: newArtistName }, { headers: { 'x-access-token': token } })
       .then(res => {
         setArtists([...artists, res.data]);
         setNewArtistName('');
@@ -38,7 +42,7 @@ const Admin = () => {
 
   const deleteArtist = (artistId) => {
     const token = localStorage.getItem('token');
-    axios.delete(`/api/artists/${artistId}`, { headers: { 'x-access-token': token } })
+    axios.delete(`${API_BASE_URL}/api/artists/${artistId}`, { headers: { 'x-access-token': token } })
       .then(() => setArtists(artists.filter(a => a.id !== artistId)))
       .catch(err => console.error('Error deleting artist:', err));
   };
