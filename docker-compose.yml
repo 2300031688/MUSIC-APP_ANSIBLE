@@ -16,7 +16,7 @@ services:
     image: 2300031688/dockermusic-backend:latest
     container_name: springboot
     ports:
-      - "2025:2000"
+      - "2025:8080"
     depends_on:
       - mysqldb
     restart: on-failure
